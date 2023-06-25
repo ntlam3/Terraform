@@ -3,3 +3,6 @@ resource "azurerm_resource_group" "rg"{
     location = var.location
 
 }
+resource "time_static" "date"{
+
+}

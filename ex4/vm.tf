@@ -66,3 +66,19 @@ resource "azurerm_virtual_machine" "webvm" {
    
   }
 }
+
+resource "azurerm_virtual_machine_extension" "custom_script_extension" {
+  name = "customscript"
+  virtual_machine_id = azurerm_virtual_machine.webvm.id
+  publisher = "Microsoft.Azure.Extensions"
+  type="CustomScript"
+  type_handler_version = "2.0"
+
+  settings = <<SETTINGS
+  {
+    "fileUris": ["https://${azurerm_storage_account.storage_account.name}.blob.core.windows.net/${azurerm_storage_container.storage_container.name}/${azurerm_storage_blob.storage_blob.name}"],
+    "commandToExecute": "sh script.sh"
+
+  }
+  SETTINGS
+}
