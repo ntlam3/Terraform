@@ -53,11 +53,24 @@ resource "azurerm_network_interface" "if1" {
       subnet_id=azurerm_subnet.subnets["subnet1"].id
       private_ip_address_allocation = "Static"
       private_ip_address = "172.16.0.10"
+      public_ip_address_id = azurerm_public_ip.pubip1.id
     }
+    
   
 }
 output "ip_configuration"{
     value=azurerm_network_interface.if1.ip_configuration[0].private_ip_address
+}
+
+resource "azurerm_public_ip" "pubip1" {
+  name                = "${var.vm}-pubip1"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = var.location
+  allocation_method   = "Dynamic"
+
+  tags = {
+    environment = "Production"
+  }
 }
 
 resource "azurerm_network_security_group" "nsg"{
