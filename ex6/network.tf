@@ -69,7 +69,7 @@ resource "azurerm_public_ip" "pubip1" {
   allocation_method   = "Dynamic"
 
   tags = {
-    environment = "Production"
+    for name, value in local.tags: name => value
   }
 }
 
